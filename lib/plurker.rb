@@ -41,3 +41,9 @@ end
 require 'plurker/easy_class_maker'
 require 'plurker/base'
 require 'plurker/logging'
+require 'plurker/status'
+require 'plurker/user'
+
+module Plurker
+    class Unavailable < StandardError; end
+end

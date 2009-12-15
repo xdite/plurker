@@ -2,7 +2,7 @@ module Plurker
 
   class Base
    
-    attr_reader :logged_in, :uid, :nickname, :friend_ids, :fan_ids, :cookies , :info , :password
+    attr_reader :logged_in, :nickname, :password, :cookies , :info , :fans_count, :friends_count, :recent_plurks
     
     def initialize(nickname, password, options={})
       @info , @nickname, @password = {}, nickname, password
@@ -33,6 +33,10 @@ module Plurker
         response = JSON.parse(agent.current_page.body)
         
         @info = response["user_info"]
+        @fans_count     = response["fans_count"]
+        @friends_count  = response["friends_count"]
+        
+        @recent_plurks = statuses(response["plurks"])
         
         return response
       rescue
@@ -40,11 +44,21 @@ module Plurker
       end
     end
     
-    protected
+    def get_public_profile(user_id)
+      params = {
+        :user_id => user_id,
+        :api_key => api_key
+      }
+      data = request("/API/Profile/getPublicProfile", :method => :get , :params => params )
+      return JSON.parse(data)
+    end
+    
+    private
+    
       def request(path, options = {})
         begin
           agent = WWW::Mechanize.new
-          agent.cookie_jar = @cookies
+          agent.cookie_jar = @cookies if @cookies
           case options[:method].to_s
             when "get"
               agent.get(API_HOST+path, options[:params])
@@ -55,6 +69,14 @@ module Plurker
         rescue WWW::Mechanize::ResponseCodeError => ex
           raise Unavailable, ex.response_code
         end
+      end
+      
+      def statuses(doc)
+        doc.inject([]) { |statuses, status| statuses << Status.new(status); statuses }
+      end
+      
+      def users(doc)
+        doc.inject([]) { |users, user| users << User.new(user); users }
       end
   end  
 end
