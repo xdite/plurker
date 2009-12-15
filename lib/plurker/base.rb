@@ -50,8 +50,21 @@ module Plurker
         :api_key => api_key
       }
       data = request("/API/Profile/getPublicProfile", :method => :get , :params => params )
-      return JSON.parse(data)
+      return data
     end
+    
+    def get_plurks(date_from=Time.now)
+      # require login
+      return false unless @logged_in
+      params = {
+        :offset => date_from.getgm.strftime("\"%Y-%m-%dT%H:%M:%S\""),
+        :api_key => api_key
+      }
+      data = request("/API/Timeline/getPlurks", :method => :get, :params => params)
+      plurks = statuses(data["plurks"])
+      return plurks
+    end
+    
     
     private
     
@@ -65,7 +78,7 @@ module Plurker
             when "post"
               agent.post(API_HOST+path, options[:params])
           end
-          return agent.current_page.body
+          return JSON.parse(agent.current_page.body)
         rescue WWW::Mechanize::ResponseCodeError => ex
           raise Unavailable, ex.response_code
         end
@@ -78,5 +91,6 @@ module Plurker
       def users(doc)
         doc.inject([]) { |users, user| users << User.new(user); users }
       end
+      
   end  
 end
