@@ -39,3 +39,4 @@ end
 
 require 'plurker/easy_class_maker'
 require 'plurker/base'
+require 'plurker/logging'
