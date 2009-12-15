@@ -25,7 +25,6 @@ module Plurker
      
      def apply_configuration(config)
        ENV['PLURK_API_KEY']             = config['api_key']
-
        @plurker_configuration = config  # must be set before adapter loaded
        plurker_config
      end
