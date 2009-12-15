@@ -1,13 +1,15 @@
 module Plurker
+
   class Base
-    
-    API_HOST = 'http://www.plurk.com'
-    API_KEY = Plurker.plurker_config['api_key']
-    
+   
     attr_reader :logged_in, :uid, :nickname, :friend_ids, :fan_ids, :cookies , :info , :password
     
     def initialize(nickname, password, options={})
       @info , @nickname, @password = {}, nickname, password
+    end
+    
+    def api_key
+      return Plurker.plurker_config['api_key']
     end
     
     def login
@@ -18,7 +20,7 @@ module Plurker
         params = {
           :username => @nickname ,
           :password => @password ,
-          :api_key => API_KEY
+          :api_key => api_key
         }
         
         agent.get(API_HOST+path, params )

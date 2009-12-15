@@ -11,6 +11,8 @@ module Plurker
   @plurker_configuration = {}
   @raw_plurker_configuration = {}
   
+  API_HOST = 'http://www.plurk.com'
+  
   class << self
      def load_configuration(plurker_yaml_file)
        return false unless File.exist?(plurker_yaml_file)
