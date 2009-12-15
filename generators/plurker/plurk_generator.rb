@@ -1,7 +1,7 @@
 class PlurkGenerator < Rails::Generator::Base
   def manifest
     record do |m|
-      m.file 'config/plurk.yml', 'config/plurk.yml'
+      m.file 'config/plurker.yml', 'config/plurker.yml'
     end
   end
 end
