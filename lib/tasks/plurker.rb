@@ -1,1 +1,0 @@
-load 'tasks/plurker.rake'
