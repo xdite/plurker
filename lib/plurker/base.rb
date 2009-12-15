@@ -2,7 +2,7 @@ module Plurker
   class Base
     
     API_HOST = 'http://www.plurk.com'
-    API_KEY = PLURK['api_key']
+    API_KEY = ENV['PLURK_API_KEY']
     
     attr_reader :logged_in, :uid, :nickname, :friend_ids, :fan_ids, :cookies , :info , :password
     
