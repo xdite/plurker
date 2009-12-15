@@ -1,12 +1,13 @@
 module Plurker
   class Base
     
+    API_HOST = 'http://www.plurk.com'
+    API_KEY = PLURK['api_key']
+    
     attr_reader :logged_in, :uid, :nickname, :friend_ids, :fan_ids, :cookies , :info , :password
     
     def initialize(nickname, password, options={})
       @info , @nickname, @password = {}, nickname, password
-      @api_host = 'http://www.plurk.com'
-      @api_key = plurk_config['api_key']
     end
     
     def login
@@ -17,10 +18,10 @@ module Plurker
         params = {
           :username => @nickname ,
           :password => @password ,
-          :api_key => @api_key
+          :api_key => API_KEY
         }
         
-        agent.get(@api_host+path, params )
+        agent.get(API_HOST+path, params )
         # send request
         
         @cookies = agent.cookie_jar
@@ -44,9 +45,9 @@ module Plurker
           agent.cookie_jar = @cookies
           case options[:method].to_s
             when "get"
-              agent.get(@api_host+path, options[:params])
+              agent.get(API_HOST+path, options[:params])
             when "post"
-              agent.post(@api_host+path, options[:params])
+              agent.post(API_HOST+path, options[:params])
           end
           return agent.current_page.body
         rescue WWW::Mechanize::ResponseCodeError => ex
