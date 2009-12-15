@@ -1,0 +1,23 @@
+Pluker
+========
+
+Description
+------------------
+
+Base on [Plurk Official API] (http://www.plurk.com/API/)
+
+You must [register first](http://www.plurk.com/API/) to get API key.
+
+You can get more detail on [Officical Site] (http://www.plurk.com/API/.
+
+Usage
+------------------
+
+scrip/generate plurker 
+
+
+Author
+------------------
+
+Author: xdite (xdite@pixnet.tw)
+Blog: http://blog.xdite.net
